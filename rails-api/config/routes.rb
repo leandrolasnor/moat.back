@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   mount_devise_token_auth_for 'User', at: 'auth'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :albums
   match "*path" => "application#not_found", via: :all
 end
