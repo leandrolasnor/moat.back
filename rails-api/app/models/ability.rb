@@ -7,7 +7,7 @@ class Ability
 
     if user.admin?
       can :manage, :all
-    else
+    elsif user.user?
       can [:create, :read, :update], Album
     end
     # Define abilities for the passed in user here. For example:
