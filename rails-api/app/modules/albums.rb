@@ -10,11 +10,8 @@ module Albums
     end
 
     def update(params)
-      album = Album.find(params[:id]) # ActiveRecord::RecordNotFound
-      album.update!(
-        name:       params[:name],
-        year:       params[:year],
-        artist_id:  params[:artist_id])
+      album = Album.find(params['id']) # ActiveRecord::RecordNotFound
+      album.update!(params.slice('name','year','artist_id'))
       yield album, nil
     rescue ActiveRecord::RecordInvalid => e
       yield nil, e.record.errors.full_messages
@@ -26,7 +23,7 @@ module Albums
 
     def search(params)
       @params = params
-      pagination = paginate(Album.where(params["query"]))
+      pagination = paginate(Album.where(params['query']))
       albums = pagination.to_json
       raise(ActiveRecord::RecordNotFound.new('Record not found', Album)) if albums.blank?
       yield albums, pagination.header_params, nil
@@ -48,14 +45,14 @@ module Albums
     private
 
     def paginate(items)
-      Pagination.new(items, @params["pagination"]["current_page"] || 1, @params["pagination"]["per_page"] || 10, AlbumSerializer)
+      Pagination.new(items, @params['pagination']['current_page'] || 1, @params['pagination']['per_page'] || 10, ManyAlbumsSerializer)
     end
   end
 
   module Sweeper
     class << self
       def make(params)
-        album = Album.find(params[:id]) # ActiveRecord::RecordNotFound
+        album = Album.find(params['id']) # ActiveRecord::RecordNotFound
         album.destroy! # ActiveRecord::RecordNotDestroyed
       rescue => e
         raise e
@@ -67,9 +64,9 @@ module Albums
     class << self
       def make(params)
         album = Album.new do |s|
-          s.name    = params[:name]
-          s.year = params[:year]
-          s.artist_id = params[:artist_id]
+          s.name    = params['name']
+          s.year = params['year']
+          s.artist_id = params['artist_id']
         end
         album.save!
         return album
