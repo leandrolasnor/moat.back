@@ -2,28 +2,28 @@ require "rails_helper"
 
 RSpec.describe AlbumsController, type: :routing do
   describe "routing" do
-    it "routes to #index" do
-      expect(post: "/albums").to route_to("albums#index")
+
+    it "routes to #search" do
+      expect(get: "/albums/search").to route_to("albums#search")
     end
 
     it "routes to #show" do
       expect(get: "/albums/1").to route_to("albums#show", id: "1")
     end
 
-
-    xit "routes to #create" do
+    it "routes to #create" do
       expect(post: "/albums").to route_to("albums#create")
     end
 
-    xit "routes to #update via PUT" do
+    it "routes to #update via PUT" do
       expect(put: "/albums/1").to route_to("albums#update", id: "1")
     end
 
-    xit "routes to #update via PATCH" do
+    it "routes to #update via PATCH" do
       expect(patch: "/albums/1").to route_to("albums#update", id: "1")
     end
 
-    xit "routes to #destroy" do
+    it "routes to #destroy" do
       expect(delete: "/albums/1").to route_to("albums#destroy", id: "1")
     end
   end
