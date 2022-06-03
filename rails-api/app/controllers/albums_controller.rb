@@ -1,51 +1,59 @@
-class AlbumsController < ApplicationController
-  before_action :set_album, only: [:show, :update, :destroy]
+class AlbumsController < ApiController
+  before_action :set_album, only: [:show]
 
-  # GET /albums
   def index
-    @albums = Album.all
-
-    render json: @albums
+    SearchAlbumsService.call album_search_params
   end
 
-  # GET /albums/1
   def show
-    render json: @album
+    render json: @album, serializer: AlbumSerializer
   end
 
-  # POST /albums
   def create
-    @album = Album.new(album_params)
-
-    if @album.save
-      render json: @album, status: :created, location: @album
-    else
-      render json: @album.errors, status: :unprocessable_entity
-    end
+    CreateAlbumsService.call album_create_params
   end
 
-  # PATCH/PUT /albums/1
   def update
-    if @album.update(album_params)
-      render json: @album
-    else
-      render json: @album.errors, status: :unprocessable_entity
-    end
+    UpdateAlbumService.call album_update_params
   end
 
-  # DELETE /albums/1
   def destroy
-    @album.destroy
+    RemoveAlbumService.call album_destroy_params
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_album
       @album = Album.find(params[:id])
     end
 
-    # Only allow a trusted parameter "white list" through.
     def album_params
-      params.fetch(:album, {})
+      params.fetch(:album, {}).merge(headers_params)
+    end
+
+    def album_create_params
+      album_params.permit(:name,:year,:artist_id, :uid)
+    end
+
+    def album_destroy_params
+      album_params.permit(:id, :uid)
+    end
+
+    def album_update_params
+      album_params.permit(:id, :name,:year,:artist_id, :uid)
+    end
+
+    def album_search_params
+      album_params.permit(:query, :uid, {pagination: [:current_page, :per_page]})
+    end
+
+    def headers_params
+      {
+        uid: request.headers[:uid],
+        pagination:{
+          current_page: request.headers[:current_page] || 1,
+          per_page: request.headers[:per_page] || 10
+        }
+      }
     end
 end
