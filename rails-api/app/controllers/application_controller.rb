@@ -1,10 +1,6 @@
 class ApplicationController < ActionController::API
   include DeviseTokenAuth::Concerns::SetUserByToken
   before_action :configure_permitted_parameters, if: :devise_controller?
-  
-  def not_found
-    render body: nil, :status => 404
-  end
 
   protected
 
