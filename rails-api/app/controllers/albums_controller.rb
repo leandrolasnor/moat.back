@@ -2,22 +2,27 @@ class AlbumsController < ApiController
   before_action :set_album, only: [:show]
 
   def search
+    authorize! :read, Album
     SearchAlbumsService.call album_search_params
   end
 
   def show
+    authorize! :read, Album
     render json: @album, serializer: AlbumSerializer
   end
 
   def create
+    authorize! :create, Album
     CreateAlbumService.call album_create_params
   end
 
   def update
+    authorize! :update, Album
     UpdateAlbumService.call album_update_params
   end
 
   def destroy
+    authorize! :destroy, Album
     RemoveAlbumService.call album_destroy_params
   end
 
@@ -25,11 +30,6 @@ class AlbumsController < ApiController
 
     def set_album
       @album = Album.find(params[:id])
-    rescue ActiveRecord::RecordNotFound => e
-      render body: nil, :status => 404
-    rescue => e
-      Rails.logger.error e.inspect
-      render body: nil, :status => 500
     end
 
     def album_params
