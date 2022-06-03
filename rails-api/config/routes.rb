@@ -8,8 +8,7 @@ Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
   mount_devise_token_auth_for 'User', at: 'auth'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  post  '/albums', to: 'albums#index'
-  # get   '/albums/:id', to: 'albums#show'
-  resources :albums, id: /[a-z0-9\-_]+/, only: [:show]
+  get  '/albums/search', to: 'albums#search'
+  resources :albums, id: /[a-z0-9\-_]+/, only: [:show, :update, :destroy, :create]
   match "*path" => "application#not_found", via: :all
 end
