@@ -1,9 +1,14 @@
 module Moat::Api::Album
-  def artist
-    @artist ||= call if self.artist_id.present?
+
+  def self.prepended(mod)
+    raise NameError.new("Only model #{Album.name} can prepend this #{self}") if mod != Album.name
   end
 
-  def call
+  def artist
+    @artist ||= get_artist if self.artist_id.present?
+  end
+
+  def get_artist
     response = HTTParty.get("#{uri}?artist_id=#{self.artist_id}", headers: headers)
     return JSON.parse(response.body, symbolize_names: true).first if response.code == 200
     Rails.logger.info response.inspect
