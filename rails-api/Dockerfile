@@ -1,6 +1,6 @@
 FROM ruby:2.7-alpine
 RUN apk update \
-    && apk add build-base libxslt-dev libxml2-dev tzdata git sqlite sqlite-dev
+    && apk add build-base libxslt-dev libxml2-dev tzdata git sqlite sqlite-dev postgresql-dev postgresql-client shared-mime-info
 ENV APP_HOME /app
 RUN mkdir $APP_HOME
 WORKDIR $APP_HOME
