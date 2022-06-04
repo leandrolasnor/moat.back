@@ -17,10 +17,10 @@ staging:
   adapter: postgis
   pool: 30
   encoding: unicode
-  database: <%= Rails.application.credentials.heroku.postgresql.[:database] %>
-  host: <%= Rails.application.credentials.heroku.postgresql.[:host] %>
-  username: <%= Rails.application.credentials.heroku.postgresql.[:user] %>
-  password: <%= Rails.application.credentials.heroku.postgresql.[:password] %>
+  database: <%= Rails.application.credentials.dig(:heroku, :postgresql, :database) %>
+  host: <%= Rails.application.credentials.dig(:heroku, :postgresql, :host) %>
+  username: <%= Rails.application.credentials.dig(:heroku, :postgresql, :user) %>
+  password: <%= Rails.application.credentials.dig(:heroku, :postgresql, :password) %>
   
 
 # Warning: The database defined as "test" will be erased and
