@@ -14,7 +14,7 @@ module Moat::Api
     end
 
     def headers
-      {"Basic"  => Rails.application.credentials.moat[:token]}
+      {"Basic"  => Rails.application.credentials.dig(:moat, :token)}
     end
   
     def url
