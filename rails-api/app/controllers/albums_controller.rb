@@ -8,7 +8,7 @@ class AlbumsController < ApiController
 
   def show
     authorize! :read, Album
-    render json: @album, serializer: AlbumSerializer
+    render json: @album, serializer: ShowAlbumSerializer
   end
 
   def create

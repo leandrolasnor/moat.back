@@ -1,4 +1,4 @@
-class AlbumSerializer < ActiveModel::Serializer
+class ShowAlbumSerializer < ActiveModel::Serializer
   attributes :id, :name, :year, :artist
 
   def artist

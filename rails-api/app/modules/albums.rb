@@ -45,7 +45,7 @@ module Albums
     private
 
     def paginate(items)
-      Pagination.new(items, @params['pagination']['current_page'] || 1, @params['pagination']['per_page'] || 10, ManyAlbumsSerializer)
+      Pagination.new(items, @params['pagination']['current_page'] || 1, @params['pagination']['per_page'] || 10, AlbumsSerializer)
     end
   end
 
