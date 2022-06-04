@@ -7,10 +7,10 @@ class HandleRemoveAlbumWorker
 		Albums::delete(@params) do |album, errors|
 			ActionCable.server.broadcast @params['channel'], {
 				type: 'ALBUM_REMOVED', payload:{ 
-					album: album}}.to_json if album.present?
+					album: album}} if album.present?
 			ActionCable.server.broadcast @params['channel'], {
 				type: 'ERRORS_FROM_ALBUM_REMOVED', payload:{
-					errors: errors}}.to_json if errors.present?
+					errors: errors}} if errors.present?
 		end
 	rescue => e
 		Rails.logger.error e.inspect

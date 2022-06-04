@@ -7,13 +7,13 @@ class HandleSearchAlbumsWorker
 		Albums::search(@params) do |albums, pagination, errors|
 			ActionCable.server.broadcast user.to_gid_param, {
 				type: 'ALBUMS_FETCHED', payload:{
-					albums: albums}}.to_json if albums.present?
+					albums: albums}} if albums.present?
 			ActionCable.server.broadcast user.to_gid_param, {
 				type: 'PAGINATION_ALBUMS', payload:{
-					pagination: pagination}}.to_json if pagination.present?
+					pagination: pagination}} if pagination.present?
 			ActionCable.server.broadcast user.to_gid_param, {
 				type: 'ERRORS_FROM_SEARCH_ALBUMS', payload:{
-					errors: errors}}.to_json if errors.present?
+					errors: errors}} if errors.present?
 		end
 	rescue => e
 		Rails.logger.error e.inspect

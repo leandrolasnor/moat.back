@@ -7,10 +7,10 @@ class HandleCreateAlbumWorker
 		Albums::create(@params) do |album, errors|
 			ActionCable.server.broadcast user.to_gid_param, {
 				type: 'ALBUM_CREATED', payload:{
-					album: album}}.to_json if album.present?
+					album: album}} if album.present?
 			ActionCable.server.broadcast user.to_gid_param, {
 				type: 'ERRORS_FROM_ALBUM_CREATED', payload:{
-					errors: errors}}.to_json if errors.present?
+					errors: errors}} if errors.present?
 		end
 	rescue => e
 		Rails.logger.error e.inspect
