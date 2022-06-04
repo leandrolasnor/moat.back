@@ -9,8 +9,8 @@ build:
     RAILS_ENV: staging
     RACK_ENV: staging
 run:
-  web: bundle exec puma -C rails-api/config/puma-staging.rb
+  web: sh -c "bundle exec puma -C config/puma-staging.rb"
   worker:
     command:
-      - bundle exec sidekiq
+      - sh -c "bundle exec sidekiq"
     image: web
