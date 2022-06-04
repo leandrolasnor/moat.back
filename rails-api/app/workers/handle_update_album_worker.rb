@@ -16,7 +16,7 @@ class HandleUpdateAlbumWorker
 		Rails.logger.error e.inspect
 		ActionCable.server.broadcast user.to_gid_param, {
 			type: '500', payload:{
-				message: 'HTTP 500 Internal Server Error'}}.to_json
+				message: 'HTTP 500 Internal Server Error'}}
 	end
 
   private
