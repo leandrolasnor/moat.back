@@ -23,7 +23,7 @@ module Albums
 
     def search(params)
       @params = params
-      pagination = paginate(Album.where(params['query']))
+      pagination = paginate(Album.where(params[:query]))
       albums = pagination.page_items
       raise(ActiveRecord::RecordNotFound.new('Record not found', Album)) if albums.blank?
       yield albums, pagination.header_params, nil
@@ -45,7 +45,7 @@ module Albums
     private
 
     def paginate(items)
-      Pagination.new(items, @params['pagination']['current_page'] || 1, @params['pagination']['per_page'] || 10, AlbumsSerializer)
+      Pagination.new(items, @params.dig(:pagination, :current_page), @params.dig(:pagination, :per_page), AlbumsSerializer)
     end
   end
 

@@ -3,7 +3,7 @@ class HandleSearchAlbumsWorker
 	sidekiq_options retry: false
 
   def perform(params)
-		@params = JSON.parse(params)
+		handle params
 		Albums::search(@params) do |albums, pagination, errors|
 			ActionCable.server.broadcast user.to_gid_param, {
 				type: 'ALBUMS_FETCHED', payload:{
@@ -27,6 +27,10 @@ class HandleSearchAlbumsWorker
 	private
 
 	def user
-		@user ||= User.find(@params['uid'])
+		@user ||= User.find(@params[:uid])
+	end
+
+	def handle(params)
+		@params = JSON.parse(params).deep_symbolize_keys!
 	end
 end
