@@ -24,7 +24,7 @@ module Albums
     def search(params)
       @params = params
       pagination = paginate(Album.where(params['query']))
-      albums = pagination.to_json
+      albums = pagination.page_items
       raise(ActiveRecord::RecordNotFound.new('Record not found', Album)) if albums.blank?
       yield albums, pagination.header_params, nil
     rescue => e
