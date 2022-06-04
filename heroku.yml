@@ -10,7 +10,8 @@ build:
     RACK_ENV: development
 release:
   command:
-    - rake db:migrate
+    - rake db:schema:load
+    - rake db:seed
   image: web
 run:
   web: sh -c "bundle exec puma -C config/puma.rb"
