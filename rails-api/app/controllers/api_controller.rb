@@ -21,4 +21,18 @@ class ApiController < ApplicationController
     Rails.logger.error e.inspect
     render body: nil, :status => :internal_server_error
   end
+
+  def headers_params
+    {
+      uid: request.headers[:uid],
+      pagination:{
+        current_page: request.headers[:current_page] || 1,
+        per_page: request.headers[:per_page] || 10
+      }
+    }
+  end
+
+  def deliver(content:, status:)
+    render json: content, status: status
+  end
 end

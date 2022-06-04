@@ -3,7 +3,7 @@ class AlbumsController < ApiController
 
   def search
     authorize! :read, Album
-    SearchAlbumsService.call album_search_params
+    deliver SearchAlbumsService.call album_search_params
   end
 
   def show
@@ -13,17 +13,17 @@ class AlbumsController < ApiController
 
   def create
     authorize! :create, Album
-    CreateAlbumService.call album_create_params
+    deliver CreateAlbumService.call album_create_params
   end
 
   def update
     authorize! :update, Album
-    UpdateAlbumService.call album_update_params
+    deliver UpdateAlbumService.call album_update_params
   end
 
   def destroy
     authorize! :destroy, Album
-    RemoveAlbumService.call album_destroy_params
+    deliver RemoveAlbumService.call album_destroy_params
   end
 
   private
@@ -55,15 +55,5 @@ class AlbumsController < ApiController
 
     def album_search_params
       album_params.permit(:query, :uid, {pagination: [:current_page, :per_page]})
-    end
-
-    def headers_params
-      {
-        uid: request.headers[:uid],
-        pagination:{
-          current_page: request.headers[:current_page] || 1,
-          per_page: request.headers[:per_page] || 10
-        }
-      }
     end
 end
