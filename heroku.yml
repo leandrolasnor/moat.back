@@ -10,7 +10,9 @@ build:
     RACK_ENV: development
 run:
   web: sh -c "bundle exec puma -C config/puma.rb"
-  release: rake db:migrate
+    release:
+      command:
+        - rake db:migrate
   worker:
     command:
       - sh -c "bundle exec sidekiq"
