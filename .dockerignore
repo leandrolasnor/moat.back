@@ -1,0 +1,3 @@
+.git/
+rails-api/config/initializers/secret_token.rb
+rails-api/config/master.key
