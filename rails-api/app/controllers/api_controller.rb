@@ -1,5 +1,6 @@
 class ApiController < ApplicationController
   before_action :authenticate_user!
+  skip_before_action :authenticate_user!, only: [:not_found, :health]
 
   rescue_from StandardError, with: :error
   rescue_from CanCan::AccessDenied, with: :deny_access
@@ -15,6 +16,10 @@ class ApiController < ApplicationController
 
   def not_found
     render body: nil, :status => :not_found
+  end
+
+  def health
+    render body: nil, :status => :no_content
   end
 
   def error(e)

@@ -7,11 +7,11 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
   mount_devise_token_auth_for 'User', at: 'auth'
 
-  root to: ->(env) { [204, {}, ['']] }
+  root to: "api#health", via: :all
   
   get  '/albums/search', to: 'albums#search'
   resources :albums, id: /[a-z0-9\-_]+/, only: [:show, :update, :destroy, :create]
 
   get '/artists', to: 'artists#list'
-  match "*path" => "application#not_found", via: :all
+  match "*path" => "api#not_found", via: :all
 end
