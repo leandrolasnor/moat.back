@@ -4,12 +4,12 @@ setup:
     RACK_ENV: staging
 build:
   docker:
-    web: Dockerfile
+    web: rails-api/Dockerfile
   config:
     RAILS_ENV: staging
     RACK_ENV: staging
 run:
-  web: bundle exec puma -C config/puma-staging.rb
+  web: bundle exec puma -C rails-api/config/puma-staging.rb
   worker:
     command:
       - bundle exec sidekiq
