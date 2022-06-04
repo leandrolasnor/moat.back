@@ -9,7 +9,7 @@ module Moat::Api::Album
   end
 
   def get_artist
-    response = HTTParty.get("#{uri}?artist_id=#{self.artist_id}", headers: headers)
+    response = HTTParty.get(url, headers: headers)
     return JSON.parse(response.body, symbolize_names: true).first if response.code == 200
     Rails.logger.info response.inspect
     nil
@@ -22,7 +22,7 @@ module Moat::Api::Album
     {"Basic"  => Rails.application.credentials.moat[:token]}
   end
 
-  def uri
-    ENV['MOAT_URI']
+  def url
+    "#{ENV['MOAT_URI']}?artist_id=#{self.artist_id}"
   end
 end
