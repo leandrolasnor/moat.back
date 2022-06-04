@@ -16,5 +16,5 @@ run:
   web: sh -c "bundle exec puma -C config/puma-staging.rb"
   worker:
     command:
-      - sh -c "bundle exec sidekiq"
+      - sh -c "bundle exec sidekiq -e staging"
     image: web
