@@ -47,6 +47,8 @@ Rails.application.configure do
   # ActionCable Route
   config.action_cable.mount_path = '/cable'
 
+  config.web_socket_server_url = "wss://#{ENV.fetch('HOST') { "moat-task.herokuapp.com" }}/cable"
+
   # ActionCable whitelist
   config.action_cable.allowed_request_origins = [/http:\/\/*/, /https:\/\/*/, nil]
 
