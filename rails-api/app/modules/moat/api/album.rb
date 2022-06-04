@@ -1,4 +1,4 @@
-module 1  ::Album
+module Moat::Api::Album
 
   def self.prepended(mod)
     raise NameError.new("Only model #{Album.name} can prepend this #{self}") if mod.to_s != Album.name
