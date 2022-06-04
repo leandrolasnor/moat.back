@@ -21,3 +21,11 @@ User.create!(
   password_confirmation:  "123456",
   role:                   1
 )
+
+5.times{ 
+  Album.create!(
+    name: Faker::Quotes::Chiquito.expression,
+    year: rand(1948..Time.now.year).to_i,
+    artist_id: [1,2,3,4,5].sample
+  )
+}
