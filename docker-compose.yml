@@ -11,12 +11,8 @@ services:
         ports:
             - "3000:3000"
         depends_on:
-            - db
             - redis
             - sidekiq
-        environment:
-            REDIS_URL: 'redis://redis:6379'
-            MOAT_URI:  'https://www.moat.ai/api/task'
     sidekiq:
         container_name: sidekiq
         build: ./rails-api
@@ -25,9 +21,6 @@ services:
             - redis
         volumes:
             - ./rails-api:/app
-        environment:
-            REDIS_URL: 'redis://redis:6379'
-            MOAT_URI:  'https://www.moat.ai/api/task' 
     redis:
         image: bitnami/redis:6.2.4
         container_name: redis
