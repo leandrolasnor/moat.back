@@ -3,11 +3,18 @@ module ApplicationCable
     identified_by :current_user
 
     def connect
-        params = request.query_parameters()
-        access_token = params["access_token"]
-        uid = params["uid"]
-        client = params["client"]
-        self.current_user = find_verified_user access_token, uid, client
+      ws_token = request.original_fullpath.sub("/cable?ws_token=", "")
+      user_params = crypt.decrypt_and_verify(ws_token)
+      uid           = user_params[:uid]
+      client        = user_params[:client]
+      access_token  = user_params[:access_token]
+      self.current_user = find_verified_user access_token, uid, client
+    rescue ActiveSupport::MessageEncryptor::InvalidMessage => e
+      Rails.logger.error e.message
+      reject_unauthorized_connection
+    rescue => e
+      Rails.logger.info e.message
+      reject_unauthorized_connection
     end
 
 
@@ -20,6 +27,10 @@ module ApplicationCable
         else
             reject_unauthorized_connection
         end
-    end 
+    end
+
+    def crypt
+      @crypt ||= ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31])
+    end
   end
 end
