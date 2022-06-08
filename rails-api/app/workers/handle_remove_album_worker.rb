@@ -16,6 +16,6 @@ class HandleRemoveAlbumWorker
 		Rails.logger.error e.inspect
 		ActionCable.server.broadcast @params['channel'],{
 			type: "500", payload:{
-				message: "HTTP 500 Internal Server Error"}}.to_json
+				message: "HTTP 500 Internal Server Error"}}
 	end
 end

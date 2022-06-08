@@ -46,7 +46,7 @@ class AlbumsController < ApiController
           id: params[:id], 
           channel:current_user.to_gid_param
         }
-      ).permit(:id, :uid)
+      ).permit(:id, :uid, :channel)
     end
 
     def album_update_params
@@ -54,6 +54,6 @@ class AlbumsController < ApiController
     end
 
     def album_search_params
-      album_params.permit(:query, :uid, {pagination: [:current_page, :per_page]})
+      album_params.merge(query: params.dig(:query)).permit(:query, :uid, {pagination: [:current_page, :per_page]})
     end
 end

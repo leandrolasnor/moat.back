@@ -16,19 +16,20 @@ module Albums
     rescue ActiveRecord::RecordInvalid => e
       yield nil, e.record.errors.full_messages
     rescue ActiveRecord::RecordNotFound => e
-      yield nil, e.message
+      yield nil, [e.message]
     rescue => e
       raise e
     end
 
     def search(params)
-      @params = params
+      @current_page = params.dig(:pagination, :current_page)
+      @per_page = params.dig(:pagination, :per_page)
       pagination = paginate(Album.where(params[:query]))
       albums = pagination.page_items
       raise(ActiveRecord::RecordNotFound.new('Record not found', Album)) if albums.blank?
       yield albums, pagination.header_params, nil
     rescue => e
-      yield nil, nil, e.message
+      yield nil, nil, [e.message]
     end
 
     def delete(params)
@@ -37,7 +38,7 @@ module Albums
     rescue ActiveRecord::RecordNotDestroyed => e
       yield nil, e.record.errors.full_messages
     rescue ActiveRecord::RecordNotFound => e
-      yield nil, e.message
+      yield nil, [e.message]
     rescue => e
       raise e
     end
@@ -45,7 +46,7 @@ module Albums
     private
 
     def paginate(items)
-      Pagination.new(items, @params.dig(:pagination, :current_page), @params.dig(:pagination, :per_page), AlbumsSerializer)
+      Pagination.new(items, @current_page, @per_page, AlbumsSerializer)
     end
   end
 

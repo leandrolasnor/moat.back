@@ -14,7 +14,7 @@ class Pagination
 
   def page_items
     @page_items ||= ActiveModel::Serializer::CollectionSerializer.new(
-      @items.limit(@per_page).offset(@current_page * @per_page),
+      @items.limit(@per_page).offset(@current_page-1 * @per_page),
       current_user: @current_user,
       serializer: @serializer,
       scope: @scope

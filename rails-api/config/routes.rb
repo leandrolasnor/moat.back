@@ -9,8 +9,8 @@ Rails.application.routes.draw do
 
   root to: "api#health", via: :all
   
-  get  '/albums/search', to: 'albums#search'
-  resources :albums, id: /[a-z0-9\-_]+/, only: [:show, :update, :destroy, :create]
+  get  '/albums/search/:query', query: /[a-z0-9\-_]+/, to: 'albums#search'
+  resources :albums, id: /[0-9\-_]+/, only: [:show, :update, :destroy, :create]
 
   get '/artists', to: 'artists#list'
   match "*path" => "api#not_found", via: :all
