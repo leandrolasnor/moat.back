@@ -12,9 +12,8 @@ class User < ActiveRecord::Base
   liberal_enum :role
 
   validates :name, presence: true
-  validates :role, presence: true, inclusion: { in: roles.values }
+  validates :role, presence: true, inclusion: { in: ["0","1"] }
   validates_numericality_of :role, on: :create, message: "is not a number"
-  validates :password, presence: true, on: :create
   validates :password, length: { minimum: 6 }
   validates :password_confirmation, presence: true, if: lambda {| u| u.password.present? }
 end
