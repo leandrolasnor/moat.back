@@ -14,6 +14,5 @@ class User < ActiveRecord::Base
 
   validates :name, presence: true
   validates :role, presence: true, inclusion: { in: roles.keys }
-  validates :password, length: { minimum: 6 }
   validates :password_confirmation, presence: true, if: lambda {| u| u.password.present? }
 end
