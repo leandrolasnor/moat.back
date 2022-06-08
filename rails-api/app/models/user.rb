@@ -8,12 +8,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
   self.primary_key = 'uid'
-  enum role: { user: 0, admin: 1 }
+
+  enum role: { user: 0, admin: 1}
   liberal_enum :role
 
   validates :name, presence: true
-  validates :role, presence: true, inclusion: { in: ["0","1"] }
-  validates_numericality_of :role, on: :create, message: "is not a number"
+  validates :role, presence: true, inclusion: { in: roles.keys }
   validates :password, length: { minimum: 6 }
   validates :password_confirmation, presence: true, if: lambda {| u| u.password.present? }
 end
