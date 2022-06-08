@@ -5,7 +5,7 @@ Sidekiq::Web.use ActionDispatch::Cookies
 Sidekiq::Web.use ActionDispatch::Session::CookieStore, key: "_interslice_session"
 Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
-  mount_devise_token_auth_for 'User', at: 'auth', controllers:{sessions: 'overrides/sessions'}
+  mount_devise_token_auth_for 'User', at: 'auth', controllers:{sessions: 'overrides/sessions', registrations: 'overrides/registrations'}
 
   root to: "api#health", via: :all
   
