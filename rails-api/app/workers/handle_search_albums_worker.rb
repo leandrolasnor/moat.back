@@ -4,13 +4,9 @@ class HandleSearchAlbumsWorker
 
   def perform(params)
 		handle params
-		Albums::search(@params) do |albums, pagination, errors|
+		Albums::search(@params) do |data, errors|
 			ActionCable.server.broadcast user.to_gid_param, {
-				type: 'ALBUMS_FETCHED', payload:{
-					albums: albums}} if albums.present?
-			ActionCable.server.broadcast user.to_gid_param, {
-				type: 'PAGINATION_ALBUMS', payload:{
-					pagination: pagination}} if pagination.present?
+				type: 'ALBUMS_FETCHED', payload:data} if data.present?
 			ActionCable.server.broadcast user.to_gid_param, {
 				type: 'ERRORS_FROM_SEARCH_ALBUMS', payload:{
 					errors: errors}} if errors.present?

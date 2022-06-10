@@ -27,9 +27,9 @@ module Albums
       pagination = paginate(Album.where(params[:query]))
       albums = pagination.page_items
       raise(ActiveRecord::RecordNotFound.new('Record not found', Album)) if albums.blank?
-      yield albums, pagination.header_params, nil
+      yield({ albums:albums, pagination:pagination.header_params }, nil)
     rescue => e
-      yield nil, nil, [e.message]
+      yield nil, [e.message]
     end
 
     def delete(params)
