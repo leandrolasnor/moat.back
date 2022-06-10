@@ -31,8 +31,8 @@ class ApiController < ApplicationController
     {
       uid: request.headers[:uid],
       pagination:{
-        current_page: request.headers[:current_page] || 1,
-        per_page: request.headers[:per_page] || 10
+        current_page: request.headers["current-page"] || 1,
+        per_page: request.headers["per-page"] || 10
       }
     }
   end
