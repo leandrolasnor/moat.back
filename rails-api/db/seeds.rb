@@ -22,9 +22,9 @@ User.create!(
   role:                   1
 )
 
-5.times{ 
+30.times{ 
   Album.create!(
-    name: Faker::Quotes::Chiquito.expression,
+    name: Faker::Fantasy::Tolkien.poem,
     year: rand(1948..Time.now.year).to_i,
     artist_id: [1,2,3,4,5].sample
   )
