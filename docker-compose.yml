@@ -20,9 +20,9 @@ services:
         depends_on:
             - redis
         volumes:
-            - ./rails-api:/app
+            - ./rails-api:/app    
     redis:
-        image: bitnami/redis:6.2.4
+        image: redis:alpine
         container_name: redis
         environment: 
             ALLOW_EMPTY_PASSWORD: 'yes'
