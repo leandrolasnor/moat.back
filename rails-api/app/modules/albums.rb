@@ -10,8 +10,8 @@ module Albums
     end
 
     def update(params)
-      album = Album.find(params['id']) # ActiveRecord::RecordNotFound
-      album.update!(params.slice('name','year','artist_id'))
+      album = Album.find(params[:id]) # ActiveRecord::RecordNotFound
+      album.update!(params.slice(:name,:year,:artist_id))
       yield album, nil
     rescue ActiveRecord::RecordInvalid => e
       yield nil, e.record.errors.full_messages
@@ -53,7 +53,7 @@ module Albums
   module Sweeper
     class << self
       def make(params)
-        album = Album.find(params['id']) # ActiveRecord::RecordNotFound
+        album = Album.find(params[:id]) # ActiveRecord::RecordNotFound
         album.destroy! # ActiveRecord::RecordNotDestroyed
       rescue => e
         raise e
@@ -65,9 +65,9 @@ module Albums
     class << self
       def make(params)
         album = Album.new do |s|
-          s.name    = params['name']
-          s.year = params['year']
-          s.artist_id = params['artist_id']
+          s.name      = params[:name]
+          s.year      = params[:year]
+          s.artist_id = params[:artist_id]
         end
         album.save!
         return album

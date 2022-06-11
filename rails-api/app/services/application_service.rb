@@ -6,7 +6,12 @@ class ApplicationService
   end
 
   def initialize(params = nil)
+    params = params.to_h if params.respond_to? "to_h"
     @params ||= params
+  end
+
+  def params
+    @params
   end
 
   def call; end
