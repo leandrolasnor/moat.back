@@ -19,7 +19,7 @@ class ApiController < ApplicationController
   end
 
   def health
-    render body: nil, :status => :no_content
+    render body: nil, :status => :ok
   end
 
   def error(e)
@@ -27,14 +27,12 @@ class ApiController < ApplicationController
     render body: nil, :status => :internal_server_error
   end
 
-  def headers_params
-    {
-      uid: request.headers[:uid],
-      pagination:{
-        current_page: request.headers["current-page"] || 1,
-        per_page: request.headers["per-page"] || 10
-      }
-    }
+  def pagination_params
+    {pagination:{ current_page: request.headers["current-page"] || 1, per_page: request.headers["per-page"] || 10 }}
+  end
+
+  def channel_params
+    {channel:current_user.to_gid_param}
   end
 
   def deliver(content:, status:)

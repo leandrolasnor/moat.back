@@ -33,27 +33,22 @@ class AlbumsController < ApiController
     end
 
     def album_params
-      params.fetch(:album, {}).merge(headers_params)
+      params.fetch(:album, {}).merge(pagination_params).merge(channel_params)
     end
 
     def album_create_params
-      album_params.permit(:name,:year,:artist_id, :uid)
+      album_params.permit(:name,:year,:artist_id, :channel)
     end
 
     def album_destroy_params
-      album_params.merge(
-        {
-          id: params[:id], 
-          channel:current_user.to_gid_param
-        }
-      ).permit(:id, :uid, :channel)
+      album_params.merge(id: params[:id]).permit(:id, :channel)
     end
 
     def album_update_params
-      album_params.merge({id: params[:id]}).permit(:id, :name,:year,:artist_id, :uid)
+      album_params.merge(id: params[:id]).permit(:id, :name,:year,:artist_id, :channel)
     end
 
     def album_search_params
-      album_params.merge(query: params.dig(:query)).permit(:query, :uid, {pagination: [:current_page, :per_page]})
+      album_params.merge(query: params.dig(:query)).permit(:query, :channel, {pagination: [:current_page, :per_page]})
     end
 end
