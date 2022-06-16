@@ -19,7 +19,7 @@ class ApiController < ApplicationController
   end
 
   def health
-    render body: nil, :status => :ok
+    render body: "I am here!", :status => :ok
   end
 
   def error(e)
