@@ -9,7 +9,7 @@ module Overrides
     end
 
     def ws_token 
-      @ws_token ||= ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31]).encrypt_and_sign(
+      @ws_token ||= ActiveSupport::MessageEncryptor.new(Rails.application.credentials.dig(:secret_key_base)[0..31]).encrypt_and_sign(
         {
           uid:          @resource[:uid],
           access_token: @token.token,
