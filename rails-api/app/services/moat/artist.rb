@@ -17,14 +17,14 @@ class Moat::Artist
   def find(id)
     response = HTTParty.get("#{@uri}?artist_id=#{id}", headers: @headers)
     return JSON.parse(response.body, symbolize_names: true).first if response.code == 200
-    Rails.logger.error { from: "Moat::Artist.find(#{id})", code: response.code, body: response.body }
+    Rails.logger.error({ from: "Moat::Artist.find(#{id})", code: response.code, body: response.body })
     {}
   end
 
   def all
     response = HTTParty.get(@uri, headers: @headers)
     return JSON.parse(response.body, symbolize_names: true).flatten if response.code == 200
-    Rails.logger.error { from: "Moat::Artist.all", code: response.code, body: response.body }
+    Rails.logger.error({ from: "Moat::Artist.all", code: response.code, body: response.body })
     []
   end
 end
