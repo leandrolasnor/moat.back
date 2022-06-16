@@ -47,10 +47,10 @@ Rails.application.configure do
   # ActionCable Route
   config.action_cable.mount_path = '/cable'
 
-  config.web_socket_server_url = "wss://#{ENV.fetch('HOST') { "moat-task.herokuapp.com" }}/cable"
+  # config.web_socket_server_url = "wss://#{ENV.fetch('HOST') { "moat-task.herokuapp.com" }}/cable"
 
   # ActionCable whitelist
-  config.action_cable.allowed_request_origins = ["https://#{ENV.fetch('HOST') { "moat-task.herokuapp.com" }}", "http://#{ENV.fetch('HOST') { "moat-task.herokuapp.com" }}", /http:\/\/*/, /https:\/\/*/, nil]
+  config.action_cable.allowed_request_origins = [/http:\/\/*/, /https:\/\/*/, nil]
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
