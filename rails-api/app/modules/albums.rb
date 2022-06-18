@@ -1,5 +1,7 @@
 module Albums
   class << self
+    include Pagination
+
     def create(params)
       album = Factory.make params
       yield album, nil
@@ -22,12 +24,10 @@ module Albums
     end
 
     def search(params)
-      @current_page = params.dig(:pagination, :current_page)
-      @per_page = params.dig(:pagination, :per_page)
-      pagination = paginate(Album.where(params[:query]))
-      albums = pagination.page_items
+      @params = params
+      albums = Album.where(params[:query]).then(&paginate)
       raise(ActiveRecord::RecordNotFound.new('Record not found', Album)) if albums.blank?
-      yield({ albums:albums, pagination:pagination.header_params }, nil)
+      yield({ albums: albums, pagination: pagination }, nil)
     rescue => e
       yield nil, [e.message]
     end
@@ -41,12 +41,6 @@ module Albums
       yield nil, [e.message]
     rescue => e
       raise e
-    end
-
-    private
-
-    def paginate(items)
-      Pagination.new(items, @current_page, @per_page, AlbumsSerializer)
     end
   end
 

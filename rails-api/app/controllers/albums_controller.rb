@@ -49,6 +49,7 @@ class AlbumsController < ApiController
     end
 
     def album_search_params
-      album_params.merge(query: params.dig(:query)).permit(:query, :channel, {pagination: [:current_page, :per_page]})
+      album_params[:pagination].merge!(serializer: AlbumsSerializer)
+      album_params.merge(query: params.dig(:query)).permit(:query, :channel, {pagination: [:current_page, :per_page, :serializer]})
     end
 end
