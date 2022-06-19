@@ -24,7 +24,7 @@ User.create!(
 
 30.times{ 
   Album.create!(
-    name: Faker::Fantasy::Tolkien.poem,
+    name: Faker::Games::Pokemon.name,
     year: rand(1948..Time.now.year).to_i,
     artist_id: [1,2,3,4,5].sample
   )
