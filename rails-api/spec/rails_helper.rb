@@ -64,4 +64,5 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: [:controller, :request, :channel, :feature]
   config.include FactoryBot::Syntax::Methods
   config.include Auth
+  config.include Service
 end
