@@ -1,6 +1,8 @@
 class ApplicationService
   private_class_method :new
 
+  attr_reader :params
+
   def self.call(params = nil)
     new(params).call
   end
@@ -10,15 +12,9 @@ class ApplicationService
     @params ||= params
   end
 
-  def params
-    @params
-  end
-
   def call; end
 
   private
-
-  attr_reader :params
 
   def handle_response
     { content: { code: 0, message: 'ok' }, status: :ok }
