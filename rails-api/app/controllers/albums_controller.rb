@@ -1,5 +1,4 @@
 class AlbumsController < ApiController
-  before_action :set_album, only: [:show]
 
   def search
     authorize! :read, Album
@@ -8,7 +7,7 @@ class AlbumsController < ApiController
 
   def show
     authorize! :read, Album
-    render json: @album, serializer: ShowAlbumSerializer
+    deliver ShowAlbumService.call album_show_params
   end
 
   def create
@@ -28,12 +27,12 @@ class AlbumsController < ApiController
 
   private
 
-    def set_album
-      @album = Album.find(params[:id])
-    end
-
     def album_params
       params.fetch(:album, {}).merge(pagination_params).merge(channel_params)
+    end
+
+    def album_show_params
+      album_params.merge(id: params[:id]).permit(:id, :channel)
     end
 
     def album_create_params

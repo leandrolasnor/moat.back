@@ -2,6 +2,15 @@ module Albums
   class << self
     include Pagination
 
+    def show(params)
+      album = AlbumSerializer.new(Album.find(params[:id])).serializable_hash # ActiveRecord::RecordNotFound
+      yield album, nil
+    rescue ActiveRecord::RecordNotFound => e
+      yield nil, [e.message]
+    rescue => e
+      raise e
+    end
+
     def create(params)
       album = Factory.make params
       yield album, nil
@@ -26,9 +35,8 @@ module Albums
     def search(params)
       @params = params
       albums = Album.where(params[:query]).then(&paginate)
-      raise(ActiveRecord::RecordNotFound.new('Record not found', Album)) if albums.blank?
       yield({ albums: albums, pagination: pagination }, nil)
-    rescue => e
+    rescue StandardError, ActiveRecord::RecordNotFound => e
       yield nil, [e.message]
     end
 
