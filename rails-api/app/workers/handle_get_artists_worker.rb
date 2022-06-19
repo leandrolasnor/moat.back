@@ -4,7 +4,7 @@ class HandleGetArtistsWorker
 
   def perform(params)
     params = params.deep_symbolize_keys!
-    artists = Moat::Artist.all
+    artists = Moat::Api::Artist.all
     ActionCable.server.broadcast params[:channel], { type: 'ARTISTS_FETCHED', payload:{artists: artists} }
 	rescue => e
 		Rails.logger.error e.inspect

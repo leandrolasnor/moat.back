@@ -4,6 +4,11 @@ class Album < ApplicationRecord
   default_scope { order(created_at: :desc) }
 
   def artist
-    @artist ||= Moat::Artist.find(self.artist_id)
+    @artist ||= moat.artist
+  end
+
+  private
+  def moat
+    @moat ||= Moat::Api::Album.new(self)
   end
 end
