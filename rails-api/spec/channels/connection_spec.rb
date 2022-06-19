@@ -4,10 +4,10 @@ require 'json'
 RSpec.describe ApplicationCable::Connection, type: [:channel, :request, :controller, :feature] do
 
   context "must be connected" do
-    let(:headers){get_headers}
+    let(:sign_in_response) { sign_in }
     it "when send connection params" do
-      connect "/cable?uid="+headers["uid"]+"&client="+headers["client"]+"&access_token="+headers["access-token"]
-      expect(connection.current_user).to eq User.find(headers["uid"])
+      connect "/cable?ws_token=#{sign_in_response[:body][:ws_token]}"
+      expect(connection.current_user).to eq User.find(sign_in_response[:headers]['uid'])
     end
   end
 

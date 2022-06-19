@@ -4,9 +4,9 @@ RSpec.describe NotificationChannel, type: [:channel, :request, :controller, :fea
 
   describe "subscription" do
     context "when send correctly connect params" do
-      let(:headers){get_headers}
+      let(:sign_in_response){sign_in(user:{email: 'teste@teste.com', password: '123456'})}
       it "be confirmed" do
-        current_user = User.find_by email: headers["uid"]
+        current_user = User.find_by email: sign_in_response[:headers]["uid"]
         stub_connection current_user: current_user
         subscribe
         expect(subscription).to be_confirmed
