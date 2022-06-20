@@ -65,4 +65,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include Auth
   config.include Service
+  
+  config.include(Shoulda::Matchers::ActiveModel, type: :model)
+  config.include(Shoulda::Matchers::ActiveRecord, type: :model)
 end
