@@ -1,11 +1,13 @@
 module Moat::Api
   class Moat::Api::Album
+    attr_reader :album
+    
     def initialize(album)
       @album = album
     end
 
     def artist
-      get_artist(@album.artist_id)
+      get_artist(album.artist_id)
     end
 
     private

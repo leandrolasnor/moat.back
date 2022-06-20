@@ -1,6 +1,7 @@
 module Albums
   class << self
     include Pagination
+    attr_reader :params
 
     def show(params)
       album = AlbumSerializer.new(Album.find(params[:id])).serializable_hash # ActiveRecord::RecordNotFound
