@@ -191,6 +191,8 @@ GEM
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
     rspec-support (3.11.0)
+    shoulda-matchers (5.1.0)
+      activesupport (>= 5.2.0)
     sidekiq (6.4.2)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
@@ -240,6 +242,7 @@ DEPENDENCIES
   rails (~> 6.0.5)
   redis
   rspec-rails
+  shoulda-matchers
   sidekiq
   spring
   spring-watcher-listen (~> 2.0.0)
