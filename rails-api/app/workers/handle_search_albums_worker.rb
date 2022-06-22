@@ -10,6 +10,6 @@ class HandleSearchAlbumsWorker
 		end
 	rescue => e
 		Rails.logger.error e.inspect
-		ActionCable.server.broadcast params[:channel],{type: 'INTERNAL_SERVER_ERROR', payload:{message: 'HTTP 500 Internal Server Error'}}
+		ActionCable.server.broadcast params[:channel],{type: '500', payload:{message: 'HTTP 500 Internal Server Error'}}
 	end
 end
