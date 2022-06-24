@@ -1,6 +1,6 @@
 class NotificationChannel < ApplicationCable::Channel
 	def subscribed
-		reject if current_user.nil?
-		stream_from current_user.to_gid_param unless current_user.nil?
+		reject if client.nil?
+		stream_from client
 	end
 end

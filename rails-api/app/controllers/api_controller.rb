@@ -32,7 +32,7 @@ class ApiController < ApplicationController
   end
 
   def channel_params
-    {channel:current_user.to_gid_param}
+    {channel:request.headers["client"]}
   end
 
   def deliver(content:, status:)
