@@ -14,10 +14,6 @@ release:
   image: web
 run:
   web: sh -c "bundle exec puma -C config/puma/api-staging.rb"
-  cable: 
-    command:
-      - sh -c "bundle exec puma -C config/puma/cable-staging.rb cable/config.ru"
-    image: web
   worker:
     command:
       - sh -c "bundle exec sidekiq -e staging"
