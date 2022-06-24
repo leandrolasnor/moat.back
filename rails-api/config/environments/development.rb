@@ -43,7 +43,10 @@ Rails.application.configure do
   config.active_record.verbose_query_logs = true
 
   # ActionCable Route
-  config.action_cable.mount_path = '/cable'
+  # config.action_cable.mount_path = '/cable'
+
+  # Set Action Cable server url for consumer connection
+  config.action_cable.url = 'ws://cable:28080'
 
   # ActionCable whitelist
   config.action_cable.allowed_request_origins = [/http:\/\/*/, /https:\/\/*/, nil]
