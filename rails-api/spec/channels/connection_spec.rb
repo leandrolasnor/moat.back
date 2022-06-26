@@ -7,7 +7,7 @@ RSpec.describe ApplicationCable::Connection, type: [:channel, :request, :control
     let(:sign_in_response) { sign_in }
     it "when send connection params" do
       connect "/cable?ws_token=#{sign_in_response[:body][:ws_token]}"
-      expect(connection.current_user).to eq User.find(sign_in_response[:headers]['uid'])
+      expect(connection.client).to eq sign_in_response[:headers]['client']
     end
   end
 

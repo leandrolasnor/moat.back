@@ -6,8 +6,8 @@ RSpec.describe NotificationChannel, type: [:channel, :request, :controller, :fea
     context "when send correctly connect params" do
       let(:sign_in_response){sign_in(user:{email: 'teste@teste.com', password: '123456'})}
       it "be confirmed" do
-        current_user = User.find_by email: sign_in_response[:headers]["uid"]
-        stub_connection current_user: current_user
+        client = sign_in_response[:headers]["client"]
+        stub_connection client: client
         subscribe
         expect(subscription).to be_confirmed
       end
@@ -15,7 +15,7 @@ RSpec.describe NotificationChannel, type: [:channel, :request, :controller, :fea
 
     context "when send invalid connect params" do
       it "not be confirmed" do
-        stub_connection current_user: nil
+        stub_connection client: nil
         subscribe
         expect(subscription).not_to be_confirmed
       end
