@@ -9,11 +9,8 @@ module ApplicationCable
       client        = user_params[:client]
       access_token  = user_params[:access_token]
       self.client = client if authentic(access_token, uid, client)
-    rescue ActiveSupport::MessageEncryptor::InvalidMessage => e
-      Rails.logger.error e.message
-      reject_unauthorized_connection
     rescue => e
-      Rails.logger.info e.message
+      Rails.logger.error e.message
       reject_unauthorized_connection
     end
 
