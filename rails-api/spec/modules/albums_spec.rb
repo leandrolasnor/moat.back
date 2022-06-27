@@ -32,10 +32,23 @@ RSpec.describe Albums, type: :module do
         end
       end
     end
+
+    context "raise a error when" do
+      let(:error) { StandardError.new }
+  
+      before do
+        allow(Album).to receive(:find).with(999).and_raise(error)
+      end
+  
+      it "rescue a StandardError" do
+        expect {described_class::show(params_invalid) do |instance, error| end}.to raise_error(StandardError)
+      end
+    end
   end
 
   context "#create" do
     let(:params){{name: 'Teste', year: 2022, artist_id:1}}
+    let(:params_invalid){{name: '', year: 0, artist_id:0}}
 
     it "a new album with success" do
       described_class::create(params) do |album, error|
@@ -45,8 +58,6 @@ RSpec.describe Albums, type: :module do
     end
 
     context "raise error when" do
-      let(:params_invalid){{name: '', year: 0, artist_id:0}}
-
       it "fields are invalid" do
         described_class::create(params_invalid) do |instance, error|
           expect(instance).to eq(nil)
@@ -55,12 +66,23 @@ RSpec.describe Albums, type: :module do
       end
     end
     
-
+    context "raise a error when" do
+      let(:error) { StandardError.new }
+  
+      before do
+        allow(Albums::Factory).to receive(:make).with(params_invalid).and_raise(error)
+      end
+  
+      it "rescue a StandardError" do
+        expect {described_class::create(params_invalid) do |instance, error| end}.to raise_error(StandardError)
+      end
+    end
   end
 
   context "#update" do
     let(:album){create(:album)}
     let(:params) {AlbumSerializer.new(album).serializable_hash.merge!(name: 'Teste', artist_id: 1)}
+    let(:params_invalid){params.merge!(year: 1500)}
 
     before do
       allow_any_instance_of(Album).to receive(:artist).and_return({})
@@ -75,7 +97,6 @@ RSpec.describe Albums, type: :module do
     end
 
     context "raise error when" do
-      let(:params_invalid){params.merge!(year: 1500)}
       let(:params_invalid_id){params.merge!(id: 999)}
 
       it "fields are invalids" do
@@ -91,6 +112,18 @@ RSpec.describe Albums, type: :module do
           expect(error).to be_a(Array)
           expect(error.first).to eq("Couldn't find Album with 'id'=999")
         end
+      end
+    end
+
+    context "raise a error when" do
+      let(:error) { StandardError.new }
+  
+      before do
+        allow_any_instance_of(Album).to receive(:update!).with(params.slice(:name,:year,:artist_id)).and_raise(error)
+      end
+  
+      it "rescue a StandardError" do
+        expect {described_class::update(params) do |instance, error| end}.to raise_error(StandardError)
       end
     end
   end
@@ -162,6 +195,18 @@ RSpec.describe Albums, type: :module do
           expect(instance).to eq(nil)
           expect(error).to be_a(Array)
         end
+      end
+    end
+
+    context "raise a error when" do
+      let(:error) { StandardError.new }
+  
+      before do
+        allow(Albums::Sweeper).to receive(:make).with(params).and_raise(error)
+      end
+  
+      it "rescue a StandardError" do
+        expect {described_class::delete(params) do |instance, error| end}.to raise_error(StandardError)
       end
     end
   end

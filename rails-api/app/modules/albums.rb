@@ -58,8 +58,6 @@ module Albums
       def make(params)
         album = Album.find(params[:id]) # ActiveRecord::RecordNotFound
         album.destroy! # ActiveRecord::RecordNotDestroyed
-      rescue => e
-        raise e
       end
     end
   end

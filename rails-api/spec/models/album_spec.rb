@@ -15,13 +15,13 @@ RSpec.describe Album, type: :model do
 
   context "Moat::" do
     context "Api::" do
-      context "Album::" do
+      context "Album" do
         before do
-          allow(album).to receive(:artist).and_return({id:5, twitter:"@ladygaga", name:"Lady Gaga"})
+          allow_any_instance_of(Moat::Api::Album).to receive(:artist).and_return("artist")
         end
 
         it 'must can get the associate artist' do
-          expect(album.artist[:id]).to eq album[:artist_id]
+          expect(album.artist).to eq("artist")
         end
       end
     end

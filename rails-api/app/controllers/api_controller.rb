@@ -11,20 +11,20 @@ class ApiController < ApplicationController
   end
 
   def deny_access
-    render body: nil, :status => :unauthorized
+    render body: nil, status: :unauthorized
   end
 
   def not_found
-    render body: nil, :status => :not_found
+    render body: nil, status: :not_found
   end
 
   def health
-    render body: "I am here!", :status => :ok
+    render body: "I am here!", status: :ok
   end
 
   def error(e)
     Rails.logger.error e.inspect
-    render body: nil, :status => :internal_server_error
+    render body: nil, status: :internal_server_error
   end
 
   def pagination_params
